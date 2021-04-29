@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="Classes/Hulk0.js"></script>
+    <style>
+        #mau {
+            font-weight: bolder;
+        }
+
+        #mau2 {
+            font-weight: bolder;
+        }
+
+        div {
+            display: flex;
+            justify-content: center;
+
+        }
+    </style>
+
+</head>
+<body style="background: url(https://thuthuatnhanh.com/wp-content/uploads/2020/01/anh-bau-troi-xanh-lam-background-powerpoint.jpg)">
+<h1 align="center">Game</h1>
+
+<div>
+    <table>
+        <tr>
+            <td>
+                <h1><p id="mau" style="color: gainsboro"></p></h1>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <h1><p id="mau2" style="color: greenyellow"></p></h1>
+            </td>
+        </tr>
+    </table>
+
+</div>
+<div>
+    <canvas id="case" width="760" height="360" style="background: url(https://topshare.vn/wp-content/uploads/2020/07/Hinh-nen-thien-nhien-dep-30-1024x767.jpg)"></canvas>
+</div>
+</body>
+<script>
+    let canvas = document.getElementById("case");
+    let hulk = new figure("images/0.hulkDefault/h01.png", 200, 150, 100, 100, 100);
+    let hulk2 = new figure("images/0.hulkDefault/h01_R.png", 450, 150, 100, 100, 100);
+
+    function clear() {
+        let pen = canvas.getContext('2d');
+        pen.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function main() {
+        clear();
+        hulk.drawImg(canvas);
+        hulk2.drawImg(canvas);
+        requestAnimationFrame(main);
+    }
+
+    main();
+    window.addEventListener('keyup', moveSelection);
+    window.addEventListener('keydown', moveSelection);
+    window.addEventListener('keypress', moveSelection);
+
+    function moveSelection(key) {
+        switch (key.keyCode) {
+            case 100:
+                hulk.moveRight();
+                break;
+            case 97:
+                hulk.moveLeft();
+                break;
+            case 118:
+                hulk.hulk1Boxing();
+                if (hulkTakeHit(hulk, hulk2)) {
+                    hulk2.count--;
+                    document.getElementById("mau2").innerHTML = hulk2.count;
+                    if (hulk2.count == 0) {
+                        alert("s2 nộp Pi bạn ei");
+                    }
+                }
+                break;
+            case 98:
+                hulk.hulk1Boxing_R();
+                if (hulkTakeHit(hulk, hulk2)) {
+                    hulk2.count--;
+                    document.getElementById("mau2").innerHTML = hulk2.count;
+                    if (hulk2.count == 0) {
+                        alert("s2 nộp Pi bạn ei");
+                    }
+                }
+                break;
+            case 39:
+                hulk2.moveRight();
+                break;
+            case 37:
+                hulk2.moveLeft();
+                break;
+            case 107:
+                hulk2.hulk2Boxing();
+                if (hulkTakeHit(hulk2, hulk)) {
+                    hulk.count--;
+                    document.getElementById("mau").innerHTML = hulk.count;
+                    if (hulk.count == 0) {
+                        alert("s1 nộp Pi bạn ei");
+                    }
+                }
+                break;
+            case 108:
+                hulk2.hulk2boxing_R();
+                if (hulkTakeHit(hulk2, hulk)) {
+                    hulk.count--;
+                    document.getElementById("mau").innerHTML = hulk.count;
+                    if (hulk.count == 0) {
+                        alert("s1 nộp Pi bạn ei");
+                    }
+                }
+                break;
+        }
+    }
+
+    document.getElementById("mau2").innerHTML = hulk2.count;
+    document.getElementById("mau").innerHTML = hulk.count;
+
+    function hulkTakeHit(a, b) {
+        let left1 = a.x;
+        let right1 = a.x + a.width;
+        let left2 = b.x;
+        let right2 = b.x + b.width;
+        if (right1 < left2) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+</script>
+</html>
